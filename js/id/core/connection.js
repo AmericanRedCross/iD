@@ -9,7 +9,7 @@ iD.Connection = function(useHttps) {
         connection = {},
         inflight = {},
         loadedTiles = {},
-        tileZoom = 16,
+        tileZoom = 1,
         oauth = osmAuth({
             url: protocol + '//www.openstreetmap.org',
             oauth_consumer_key: '5A043yRSEugj4DJ5TljuapfnrflWDte8jTOcWLlT',
@@ -148,7 +148,7 @@ iD.Connection = function(useHttps) {
             return new iD.Node({
                 id: iD.Entity.id.fromOSM(nodeStr, attrs.id.value),
                 loc: getLoc(attrs),
-                version: attrs.version.value,
+                version: attrs.version && attrs.version.value,
                 user: attrs.user && attrs.user.value,
                 tags: getTags(obj),
                 visible: getVisible(attrs)
@@ -159,7 +159,7 @@ iD.Connection = function(useHttps) {
             var attrs = obj.attributes;
             return new iD.Way({
                 id: iD.Entity.id.fromOSM(wayStr, attrs.id.value),
-                version: attrs.version.value,
+                version: attrs.version && attrs.version.value,
                 user: attrs.user && attrs.user.value,
                 tags: getTags(obj),
                 nodes: getNodes(obj),
@@ -171,7 +171,7 @@ iD.Connection = function(useHttps) {
             var attrs = obj.attributes;
             return new iD.Relation({
                 id: iD.Entity.id.fromOSM(relationStr, attrs.id.value),
-                version: attrs.version.value,
+                version: attrs.version && attrs.version.value,
                 user: attrs.user && attrs.user.value,
                 tags: getTags(obj),
                 members: getMembers(obj),
@@ -369,7 +369,8 @@ iD.Connection = function(useHttps) {
             });
 
         function bboxUrl(tile) {
-            return url + '/api/0.6/map?bbox=' + tile.extent.toParam();
+            // return url + '/api/0.6/map?bbox=' + tile.extent.toParam();
+            return 'http://localhost:3210/odk/submissions/attangalu_oya_3.osm';
         }
 
         _.filter(inflight, function(v, i) {
