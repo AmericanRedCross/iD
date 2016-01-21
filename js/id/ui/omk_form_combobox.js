@@ -30,7 +30,7 @@ iD.ui.OmkFormCombobox = function(context) {
                         d3.select(this)
                             .call(d3.combobox().data(options(d)));
                     })
-                    .on('change', function(test){
+                    .on('change', function(){
 
                         var selected = d3.select('#omkForm').value();
                         var result = response.xforms.xform.filter(function(form){

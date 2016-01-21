@@ -60,8 +60,8 @@ iD.ui = function(context) {
             .attr('class', 'button-wrap col1')
             .call(iD.ui.Save(context));
 
-        limiter.append('div')
-            .attr('class', 'col2 omk-form-combobox')
+        bar.append('div')
+            .attr('class', 'omk-form-combobox')
             .call(iD.ui.OmkFormCombobox(context));
 
         bar.append('div')

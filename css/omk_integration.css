@@ -1,3 +1,9 @@
 .omk-form-combobox {
+    float: right;
+    margin-right: 20px;
+    width: 230px;
+}
 
+.omk-form.combobox-input, .omk-form-combobox > .combobox-caret {
+    height: 40px;
 }
