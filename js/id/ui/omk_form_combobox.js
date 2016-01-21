@@ -2,17 +2,6 @@ iD.ui.OmkFormCombobox = function(context) {
 
     return function omkFormCombobox(selection) {
 
-        var options = function (type) {
-            var options = ['choice-1', 'choice-2', 'choice-3'];
-
-            return options.map(function (option) {
-                return {
-                    title: option,
-                    value: option
-                };
-            });
-        };
-
         d3.xhr('http://localhost:3210/odk/formList?json=true')
             .header("X-OpenRosa-Version", "1.0")
             .get(function(err, xhr){
@@ -36,15 +25,23 @@ iD.ui.OmkFormCombobox = function(context) {
                     .append('input')
                     .attr('type', 'text')
                     .attr('class', 'omk-form')
-                    .attr('id', function (d) {
-                        return 'omk-form-item';
-                    })
+                    .attr('id', 'omkForm')
                     .each(function (d) {
                         d3.select(this)
-                            .call(d3.combobox()
-                                .data(options(d)));
+                            .call(d3.combobox().data(options(d)));
+                    })
+                    .on('change', function(test){
+
+                        var selected = d3.select('#omkForm').value();
+                        var result = response.xforms.xform.filter(function(form){
+                            return form.name === selected;
+                        });
+
                     });
 
+
+                // Set it
+                d3.select('#omkForm').value(response.xforms.xform[0].name).trigger("change")
             });
 
     };
