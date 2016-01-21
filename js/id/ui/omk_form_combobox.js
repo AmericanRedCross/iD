@@ -1,5 +1,15 @@
 iD.ui.OmkFormCombobox = function(context) {
 
+    var updateState = function(formId){
+
+        var q = iD.util.stringQs(location.hash.substring(1));
+
+        q.form_id = formId;
+
+        location.replace('#' + iD.util.qsString(q, true));
+
+    };
+
     return function omkFormCombobox(selection) {
 
         d3.xhr('http://localhost:3210/odk/formList?json=true')
@@ -32,18 +42,21 @@ iD.ui.OmkFormCombobox = function(context) {
                     })
                     .on('change', function(){
 
-                        var selected = d3.select('#omkForm').value();
-                        var result = response.xforms.xform.filter(function(form){
-                            return form.name === selected;
-                        });
+                        var selectedItem = d3.select('#omkForm').value();
+                        var selectedForm = response.xforms.xform.filter(function(form){
+                            return form.name === selectedItem;
+                        })[0];
 
+                        updateState(selectedForm.formID);
                     });
 
 
-                // Set it
+                
+
                 d3.select('#omkForm').value(response.xforms.xform[0].name).trigger("change")
             });
 
     };
+
 
 };
