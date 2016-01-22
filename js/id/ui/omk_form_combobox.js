@@ -59,6 +59,9 @@ iD.ui.OmkFormCombobox = function(context) {
 
                         // Adjust the URL with the selected  form ID
                         setState(selectedForm[0].formID);
+
+                        // Load the new form submission (?)
+                        context.loadTiles(context.projection, [1,1]);
                     });
 
                 // Set the dropdown - either from the URL param or to the first in the form list

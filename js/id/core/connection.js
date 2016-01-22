@@ -370,7 +370,15 @@ iD.Connection = function(useHttps) {
 
         function bboxUrl(tile) {
             // return url + '/api/0.6/map?bbox=' + tile.extent.toParam();
-            return 'http://localhost:3210/odk/submissions/attangalu_oya_3.osm';
+
+            var q = iD.util.stringQs(location.hash.substring(1));
+
+            var formID = q.form_id || null;
+
+            if(formID) {
+                return 'http://localhost:3210/odk/submissions/' + formID + '.osm';
+            }
+
         }
 
         _.filter(inflight, function(v, i) {
