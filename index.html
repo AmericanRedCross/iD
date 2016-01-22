@@ -253,7 +253,8 @@
                     .presets(iD.data.presets)
                     .imagery(iD.data.imagery)
                     .taginfo(iD.taginfo())
-                    .assetPath('dist/');
+                    .assetPath('dist/')
+                    .minEditableZoom(1);
 
                 d3.select('#id-container')
                     .call(id.ui());
