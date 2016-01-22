@@ -1,6 +1,6 @@
 iD.ui.OmkFormCombobox = function(context) {
 
-    var updateState = function(formId){
+    var setState = function(formId){
 
         var q = iD.util.stringQs(location.hash.substring(1));
 
@@ -8,6 +8,13 @@ iD.ui.OmkFormCombobox = function(context) {
 
         location.replace('#' + iD.util.qsString(q, true));
 
+    };
+
+    var getState = function(){
+
+        var q = iD.util.stringQs(location.hash.substring(1));
+
+        return q.form_id || null;
     };
 
     return function omkFormCombobox(selection) {
@@ -42,18 +49,29 @@ iD.ui.OmkFormCombobox = function(context) {
                     })
                     .on('change', function(){
 
+                        // Grab selected dropdown item
                         var selectedItem = d3.select('#omkForm').value();
+
+                        // Get the Form ID
                         var selectedForm = response.xforms.xform.filter(function(form){
                             return form.name === selectedItem;
-                        })[0];
+                        });
 
-                        updateState(selectedForm.formID);
+                        // Adjust the URL with the selected  form ID
+                        setState(selectedForm[0].formID);
                     });
 
+                // Set the dropdown - either from the URL param or to the first in the form list
+                var onloadState = getState();
+                var stateForm = response.xforms.xform.filter(function(form){
+                    return form.formID === onloadState;
+                });
 
-                
-
-                d3.select('#omkForm').value(response.xforms.xform[0].name).trigger("change")
+                if(onloadState && stateForm.length > 0){
+                    d3.select('#omkForm').value(stateForm[0].name).trigger("change");
+                } else {
+                    d3.select('#omkForm').value(response.xforms.xform[0].name).trigger("change");
+                }
             });
 
     };
