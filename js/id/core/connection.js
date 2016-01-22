@@ -9,7 +9,7 @@ iD.Connection = function(useHttps) {
         connection = {},
         inflight = {},
         loadedTiles = {},
-        tileZoom = 1,
+        tileZoom = 16,
         oauth = osmAuth({
             url: protocol + '//www.openstreetmap.org',
             oauth_consumer_key: '5A043yRSEugj4DJ5TljuapfnrflWDte8jTOcWLlT',
@@ -376,7 +376,9 @@ iD.Connection = function(useHttps) {
             var formID = q.form_id || null;
 
             if(formID) {
-                return 'http://localhost:3210/odk/submissions/' + formID + '.osm';
+
+                return 'http://localhost:3210/submissions/' + formID + '.osm';
+
             }
 
         }

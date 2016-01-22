@@ -19,7 +19,7 @@ iD.ui.OmkFormCombobox = function(context) {
 
     return function omkFormCombobox(selection) {
 
-        d3.xhr('http://localhost:3210/odk/formList?json=true')
+        d3.xhr('http://localhost:3210/formList?json=true')
             .header("X-OpenRosa-Version", "1.0")
             .get(function(err, xhr){
 
@@ -61,7 +61,7 @@ iD.ui.OmkFormCombobox = function(context) {
                         setState(selectedForm[0].formID);
 
                         // Load the new form submission (?)
-                        context.loadTiles(context.projection, [1,1]);
+                        context.flush();
                     });
 
                 // Set the dropdown - either from the URL param or to the first in the form list
