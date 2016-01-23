@@ -376,11 +376,9 @@ iD.Connection = function(useHttps) {
             var formID = q.form_id || null;
 
             if(formID) {
-
                 return 'http://localhost:3210/submissions/' + formID + '.osm';
-
             }
-
+            return null;
         }
 
         _.filter(inflight, function(v, i) {
