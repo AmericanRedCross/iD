@@ -369,8 +369,8 @@ iD.Connection = function(useHttps) {
             });
 
         function bboxUrl(tile) {
-            // return url + '/api/0.6/map?bbox=' + tile.extent.toParam();
-            return 'http://localhost:3210/odk/submissions/attangalu_oya_3.osm';
+             //return url + '/api/0.6/map?bbox=' + tile.extent.toParam();
+            return 'http://localhost:3210/submissions/attangalu_oya_3.osm';
         }
 
         _.filter(inflight, function(v, i) {

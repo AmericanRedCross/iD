@@ -90,7 +90,9 @@ window.iD = function () {
 
     /* Connection */
     function entitiesLoaded(err, result) {
-        if (!err) history.merge(result.data, result.extent);
+        if (err) return;
+        var staging = OMK.initStaging(result.data);
+        history.merge(staging.baseEntities(), result.extent);
     }
 
     context.loadTiles = function(projection, dimensions, callback) {
