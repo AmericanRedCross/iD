@@ -16,7 +16,6 @@ iD.ui.OmkFormCombobox = function(context) {
         location.replace('#' + iD.util.qsString(q, true));
     };
 
-
     var validateState = function(){
 
         var q = iD.util.stringQs(location.hash.substring(1));
@@ -25,8 +24,9 @@ iD.ui.OmkFormCombobox = function(context) {
 
         var stateForm = serverForms.filter(function(form){ return form.formID === formID; });
 
-        if(stateForm.length > 0) return true;
+        if(stateForm.length > 0) return stateForm[0];
 
+        if(formID) console.error('Invalid form_id URL query parameter: ' + formID +'.')
         return false;
     };
 
@@ -96,16 +96,28 @@ iD.ui.OmkFormCombobox = function(context) {
                             return form.name === selectedItem;
                         });
 
-                        // Adjust the URL with the selected  form ID
-                        setState(selectedForm[0].formID);
+                        var currentStateForm = validateState();
+
+                        // Make sure dropdown can handle spurious type ahead combobox mistakes
+                        if(selectedForm.length === 0 && serverForms.length === 0) {
+                            d3.select('#omkForm').value('');
+                        } else if (selectedForm.length === 0 && currentStateForm) {
+                            d3.select('#omkForm').value(currentStateForm.name);
+                        } else if (selectedForm.length === 0) {
+                            d3.select('#omkForm').value(serverForms[0].name);
+                            setState(serverForms[0].formID);
+                        } else {
+                            setState(selectedForm[0].formID);
+                        }
 
                         // Load the new form submission (?)
                         context.flush();
                     });
 
                 // Set the dropdown - either from the URL param or to the first in the form list
-                if(validateState()){
-                    d3.select('#omkForm').value(stateForm[0].name).trigger("change");
+                var state = validateState()
+                if(state){
+                    d3.select('#omkForm').value(state.name).trigger("change");
                 } else if (serverForms.length > 0){
                     d3.select('#omkForm').value(serverForms[0].name).trigger("change");
                 } else {
@@ -114,6 +126,5 @@ iD.ui.OmkFormCombobox = function(context) {
             });
 
     };
-
-
+    
 };
