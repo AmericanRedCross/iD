@@ -112,6 +112,11 @@ iD.ui.OmkFormCombobox = function(context) {
 
                         // Load the new form submission (?)
                         context.flush();
+                    })
+                    .on('keydown', function(obj){
+                        if(d3.event.keyCode === 13) {
+                            d3.select('#omkForm').trigger("change");
+                        }
                     });
 
                 // Set the dropdown - either from the URL param or to the first in the form list
@@ -126,5 +131,5 @@ iD.ui.OmkFormCombobox = function(context) {
             });
 
     };
-    
+
 };
