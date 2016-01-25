@@ -1,10 +1,11 @@
-window.OMK = {
-    staging: null // singleton staging object
+window.OMK = {};
+
+OMK.buildStaging = function (context, result) {
+    var staging = new OMK.Staging(result.data);
+    context.history().merge(staging.baseEntities(), result.extent);
+    staging.stageTags(context);
 };
 
-OMK.initStaging = function (entitiesFromServer) {
-    return OMK.staging = new OMK.Staging(entitiesFromServer);
-};
 
 /**
  * The OMK Staging. We feed it an array of entities
@@ -16,6 +17,7 @@ OMK.initStaging = function (entitiesFromServer) {
 OMK.Staging = function (entitiesFromServer) {
     this._originalEntities = entitiesFromServer;
     this._newEntities = [];
+    this._baseEntitiesWithTags = [];
 };
 
 /**
@@ -34,22 +36,22 @@ OMK.Staging.prototype.baseEntities = function () {
         if (entity.isNew()) {
             this._newEntities.push(entity);
         }
-
-        // We want to strip the tags from existing entities, because
-        // we are assuming that we edited the tags. Also, by getting
-        // the entity into the modify changeset, it should catch
-        // geometric edits as well.
+        // Existing entities should go into base graph.
         else {
-            var entityCopy = entity.copy()[0];
-            var numTags = Object.keys(entity.tags).length;
-            if (numTags > 0) {
-                entityCopy.tags = {};
-                if (typeof entity.tags.building !== 'undefined') {
-                   entityCopy.tags.building = 'yes';
-                }
+            baseEntities.push(entity);
+            // To stage all the possible tag edits, we keep track of
+            // entites with tags and perform a change action later.
+            if (Object.keys(entity.tags).length > 0) {
+                this._baseEntitiesWithTags.push(entity);
             }
-            baseEntities.push(entityCopy);
         }
     }
     return baseEntities;
+};
+
+OMK.Staging.prototype.stageTags = function (context) {
+    for (var i = 0, len = this._baseEntitiesWithTags.length; i < len; i++) {
+        var entity = this._baseEntitiesWithTags[i];
+        context.perform(iD.actions.ChangeTags(entity.id, entity.tags));
+    }
 };
