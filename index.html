@@ -5,6 +5,7 @@
         <title>iD</title>
         <link rel='stylesheet' href='css/reset.css'>
         <link rel='stylesheet' href='css/map.css'>
+        <link rel='stylesheet' href='css/omk_integration.css'>
         <link rel='stylesheet' href='css/app.css'>
 
         <!-- mobile devices -->
@@ -35,6 +36,7 @@
         <script src='js/lib/marked.js'></script>
 
         <script src='js/omk/omk.js'></script>
+        <script src='js/omk/ui/omk_form_combobox.js'></script>
         <script src='js/omk/staging.js'></script>
 
         <script src='js/id/id.js'></script>
@@ -125,6 +127,7 @@
         <script src='js/id/ui/entity_editor.js'></script>
         <script src='js/id/ui/disclosure.js'></script>
         <script src='js/id/ui/sidebar.js'></script>
+
 
         <script src='js/id/ui/preset/access.js'></script>
         <script src='js/id/ui/preset/address.js'></script>
@@ -254,7 +257,8 @@
                     .presets(iD.data.presets)
                     .imagery(iD.data.imagery)
                     .taginfo(iD.taginfo())
-                    .assetPath('dist/');
+                    .assetPath('dist/')
+                    .minEditableZoom(1);
 
                 d3.select('#id-container')
                     .call(id.ui());

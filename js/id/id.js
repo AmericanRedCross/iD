@@ -49,6 +49,7 @@ window.iD = function () {
         locale = iD.detect().locale,
         localePath;
 
+
     if (locale && iD.data.locales.indexOf(locale) === -1) {
         locale = locale.split('-')[0];
     }
