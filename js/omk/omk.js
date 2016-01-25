@@ -4,6 +4,7 @@ OMK.buildStaging = function (context, result) {
     var staging = new OMK.Staging(result.data);
     context.history().merge(staging.baseEntities(), result.extent);
     staging.stageTags(context);
+    staging.stageNewEntities(context);
 };
 
 
@@ -46,7 +47,6 @@ OMK.Staging.prototype.baseEntities = function () {
                 entity.tags = {}; // no tags in base graph
             }
             baseEntities.push(entity);
-
         }
     }
     return baseEntities;
@@ -60,5 +60,11 @@ OMK.Staging.prototype.baseEntities = function () {
 OMK.Staging.prototype.stageTags = function (context) {
     for (var id in this._tagHash) {
         context.perform(iD.actions.ChangeTags(id, this._tagHash[id]));
+    }
+};
+
+OMK.Staging.prototype.stageNewEntities = function (context) {
+    for (var i = 0, len = this._newEntities.length; i < len; i++) {
+        context.perform(iD.actions.AddEntity(this._newEntities[i]));
     }
 };
