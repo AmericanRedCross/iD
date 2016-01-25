@@ -17,13 +17,14 @@ OMK.buildStaging = function (context, result) {
 OMK.Staging = function (entitiesFromServer) {
     this._originalEntities = entitiesFromServer;
     this._newEntities = [];
-    this._baseEntitiesWithTags = [];
+    this._tagHash = {};
 };
 
 /**
  * Provides an array of Entities that function as the base graph
  * in the history.
- * @returns {Array}
+ *
+ * @returns {Array} of base entities
  */
 OMK.Staging.prototype.baseEntities = function () {
     var originals = this._originalEntities;
@@ -32,26 +33,32 @@ OMK.Staging.prototype.baseEntities = function () {
         var entity = originals[i];
 
         // New entities shouldn't make it into the base graph,
-        // the will be added via an action later.
+        // they will be added via an action later.
         if (entity.isNew()) {
             this._newEntities.push(entity);
         }
         // Existing entities should go into base graph.
         else {
-            baseEntities.push(entity);
-            // To stage all the possible tag edits, we keep track of
-            // entites with tags and perform a change action later.
+            // The base graph will not have any tags. We stage tags when performing an action
+            // so that the tag modifications make it into the history of graphs.
             if (Object.keys(entity.tags).length > 0) {
-                this._baseEntitiesWithTags.push(entity);
+                this._tagHash[entity.id] = entity.tags; // object keeping track of tags for entity id
+                entity.tags = {}; // no tags in base graph
             }
+            baseEntities.push(entity);
+
         }
     }
     return baseEntities;
 };
 
+/**
+ * Performs a change tag action on all of the existing entities with tags.
+ *
+ * @param context from id.js
+ */
 OMK.Staging.prototype.stageTags = function (context) {
-    for (var i = 0, len = this._baseEntitiesWithTags.length; i < len; i++) {
-        var entity = this._baseEntitiesWithTags[i];
-        context.perform(iD.actions.ChangeTags(entity.id, entity.tags));
+    for (var id in this._tagHash) {
+        context.perform(iD.actions.ChangeTags(id, this._tagHash[id]));
     }
 };
