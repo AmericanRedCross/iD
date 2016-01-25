@@ -1,3 +1,38 @@
+
+#omkHeader  {
+    height: 55px;
+    position: relative;
+    z-index: 1001;
+    font-size: 14px;
+    background-color: #7EBC6F;
+}
+
+#omkHeader .branding > div {
+    display: inline-block;
+}
+
+#omkLogo {
+    width: 45px;
+    margin: 5px 0 0 10px;
+}
+
+#omkHeaderText {
+    padding-top: .5em;
+    margin-left: .5em;
+    vertical-align: top;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #FFF;
+    font-size: 20px;
+}
+
+#bar {
+    top: 56px;
+}
+
+#bar .map-controls {
+    top: 126px;
+}
+
 .omk-form-combobox {
     float: right;
     margin-right: 20px;
