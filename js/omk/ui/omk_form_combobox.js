@@ -1,4 +1,4 @@
-OMK.OmkFormCombobox = function(context) {
+var omkFormCombobox = function(context) {
 
     var serverForms;
 
@@ -129,7 +129,13 @@ OMK.OmkFormCombobox = function(context) {
                     setState();
                 }
             });
-
     };
+};
+
+OMK.insertFormCombobox = function(context){
+
+    d3.select('#omkFormSelectorWrapper').append('div')
+        .attr('class', 'omk-form-combobox')
+        .call(omkFormCombobox(context));
 
 };

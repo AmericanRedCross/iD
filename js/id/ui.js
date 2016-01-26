@@ -60,12 +60,6 @@ iD.ui = function(context) {
             .attr('class', 'button-wrap col1')
             .call(iD.ui.Save(context));
 
-        if (typeof OMK === 'object' && OMK !== null) {
-            bar.append('div')
-                .attr('class', 'omk-form-combobox')
-                .call(OMK.OmkFormCombobox(context));
-        }
-
         bar.append('div')
             .attr('class', 'full-screen')
             .call(iD.ui.FullScreen(context));
