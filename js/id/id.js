@@ -50,6 +50,11 @@ window.iD = function () {
         localePath;
 
 
+    if (typeof OMK === 'object' && OMK !== null) {
+        OMK.insertFormCombobox(context);
+    }
+
+
     if (locale && iD.data.locales.indexOf(locale) === -1) {
         locale = locale.split('-')[0];
     }
