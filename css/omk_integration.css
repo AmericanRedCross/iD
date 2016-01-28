@@ -8,6 +8,14 @@
     color: #FFF;
 }
 
+.panewrap {
+    height: calc(100% - 55px);
+}
+
+.footer {
+    bottom: 55px;
+}
+
 #omkHeader .branding, #omkHeader .branding > div {
     display: inline-block;
 }
