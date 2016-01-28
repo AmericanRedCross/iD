@@ -12,9 +12,10 @@
     height: calc(100% - 55px);
 }
 
-.footer {
+.footer, .sidebar-component .body {
     bottom: 55px;
 }
+
 
 #omkHeader .branding, #omkHeader .branding > div {
     display: inline-block;
