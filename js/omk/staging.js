@@ -24,6 +24,7 @@ OMK.buildStaging = function (context, result) {
  * @param entitiesFromServer
  */
 OMK.Staging = function (entitiesFromServer) {
+    OMK.buildChecksums(entitiesFromServer);
     this._originalEntities = entitiesFromServer;
     this._newEntities = [];
     this._tagHash = {};
