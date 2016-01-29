@@ -159,6 +159,7 @@ iD.modes.Save = function(context) {
             } else {
                 var changes = history.changes(iD.actions.DiscardTags(history.difference()));
                 if (changes.modified.length || changes.created.length || changes.deleted.length) {
+                    OMK.buildChecksums(changes);
                     context.connection().putChangeset(
                         changes,
                         e.comment,
@@ -171,6 +172,7 @@ iD.modes.Save = function(context) {
                                 });
                                 showErrors();
                             } else {
+                                OMK.patchChecksumsToOMKServer();
                                 history.clearSaved();
                                 success(e, changeset_id);
                                 // Add delay to allow for postgres replication #1646 #2678
