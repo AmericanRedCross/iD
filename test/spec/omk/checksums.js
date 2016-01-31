@@ -25,5 +25,11 @@ describe('OMK.Checksums', function () {
         });
     });
 
-
+    it('checksum of the test way should equal the checksum generated for the same way in OMK Android', function () {
+        OMK.fetchXmlAndCreateEntities('data/checksum_way.xml', function (entities) {
+            var checksums = OMK.buildChecksums(entities);
+            var waySha1 = checksums._idToChecksumHash.w393886820;
+            expect(waySha1).to.eql("7be9866185c19bfff63029c96226105295b8ccf0");
+        });
+    });
 });

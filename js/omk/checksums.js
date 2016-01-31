@@ -1,10 +1,16 @@
 OMK.buildChecksums = function (entitiesFromServer) {
-    OMK.checksums = new OMK.Checksums(entitiesFromServer);
+    return OMK.checksums = new OMK.Checksums(entitiesFromServer);
 };
 
 OMK.Checksums = function (entitiesFromServer) {
     this._entityHash = {};
+    this._idToChecksumHash = {};
     this._rusha = new Rusha();
+
+    if (typeof entitiesFromServer !== 'object' || typeof entitiesFromServer.length === 'number') {
+        return;
+    }
+
     for (var i = 0, len = entitiesFromServer.length; i < len; i++) {
         var entity = entitiesFromServer[i];
         this._entityHash[entity.id] = entity;
@@ -34,17 +40,17 @@ OMK.Checksums.prototype._generateNodeChecksum = function (entity) {
     var str = this._tagsAsSortedKVString(entity.tags);
     str += entity.loc[1]; // lat
     str += entity.loc[0]; // lng
-    entity.checksum = this._rusha.digest(str);
+    this._idToChecksumHash[entity.id] = this._rusha.digest(str);
 };
 
 OMK.Checksums.prototype._generateWayChecksum = function (entity) {
     var str = this._tagsAsSortedKVString(entity.tags);
     for (var i = 0, len = entity.nodes.length; i < len; i++) {
-        var n = entity.nodes[i];
-        var node = this._entityHash[n];
-        str += node.checksum;
+        var id = entity.nodes[i];
+        var sha1 = this._idToChecksumHash[id];
+        str += sha1;
     }
-    entity.checksum = this._rusha.digest(str);
+    this._idToChecksumHash[entity.id] = this._rusha.digest(str);
 };
 
 //OMK.Checksums.prototype._generateRelationChecksum = function (entity) {
