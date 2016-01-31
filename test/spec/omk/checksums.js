@@ -12,5 +12,18 @@ describe('OMK.Checksums', function () {
         });
     });
 
+    it('tags of test way should be concatenated into the correct string for creating a checksum', function () {
+        OMK.fetchXmlAndCreateEntities('data/checksum_way.xml', function (entities) {
+            var checksums = new OMK.Checksums();
+            for (var k in entities) {
+                // the way
+                if (entities[k].id[0] === 'w') {
+                    var str = checksums._tagsAsSortedKVString(entities[k].tags);
+                    expect(str).to.eql("buildingcommercialbuilding:conditiongoodbuilding:levels1building:materialconcretenameJava the Hut");
+                }
+            }
+        });
+    });
+
 
 });
