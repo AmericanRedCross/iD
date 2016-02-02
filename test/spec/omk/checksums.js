@@ -51,7 +51,7 @@ describe('OMK.Checksums', function () {
         OMK.fetchXmlAndCreateEntities('data/checksum_way.xml', function (entities) {
             var checksums = OMK.buildChecksums(entities);
             var waySha1 = checksums._idToChecksumHash.w393886820;
-            expect(waySha1).to.eql("7be9866185c19bfff63029c96226105295b8ccf0");
+            expect(waySha1).to.eql("add90109a0ca34d12d28292ccd05c588d2220f0a");
             done();
         });
     });
