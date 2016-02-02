@@ -45,15 +45,14 @@ OMK.Checksums.prototype.patchChecksumsToOMKServer = function (diffResultXml) {
     }
     var json = JSON.stringify({finalizedOsmChecksums: checksums});
 
-    var http = new XMLHttpRequest();
-    http.onreadystatechange = function() {
-        if (http.readyState === 4 && http.status === 200) {
-            console.log(http.responseText);
-        }
-    };
-    http.open('PATCH', OMK.omkServerOsmUrl(), true); // true for async
-    http.setRequestHeader('Content-type', 'application/json');
-    http.send(json);
+    d3.xhr(OMK.omkServerOsmUrl())
+        .mimeType('application/json')
+        .response(function (xhr) {
+            return JSON.parse(xhr.responseText);
+        })
+        .send('PATCH', json, function (err, data) {
+            console.log(err || data);
+        });
 
 };
 
