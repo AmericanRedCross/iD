@@ -7,7 +7,7 @@ OMK.Checksums = function (entitiesFromServer) {
     this._idToChecksumHash = {};
     this._rusha = new Rusha();
 
-    if (typeof entitiesFromServer !== 'object' || typeof entitiesFromServer.length === 'number') {
+    if (typeof entitiesFromServer !== 'object' || typeof entitiesFromServer.length !== 'number') {
         return;
     }
 
