@@ -44,14 +44,19 @@ OMK.Checksums.prototype._generateNodeChecksum = function (entity) {
 };
 
 OMK.Checksums.prototype._generateWayChecksum = function (entity) {
+    var str = this._preWayChecksumStr(entity);
+    this._idToChecksumHash[entity.id] = this._rusha.digest(str);
+};
+
+OMK.Checksums.prototype._preWayChecksumStr = function (entity) {
     var str = this._tagsAsSortedKVString(entity.tags);
     for (var i = 0, len = entity.nodes.length; i < len; i++) {
         var id = entity.nodes[i];
         var sha1 = this._idToChecksumHash[id];
         str += sha1;
     }
-    this._idToChecksumHash[entity.id] = this._rusha.digest(str);
-};
+    return str;
+}
 
 //OMK.Checksums.prototype._generateRelationChecksum = function (entity) {
 //    var str = this._tagsAsSortedKVString(entity.tags);

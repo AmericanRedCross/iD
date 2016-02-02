@@ -37,6 +37,16 @@ describe('OMK.Checksums', function () {
             done();
         });
     });
+
+    it('should have the same pre-hash checksum string in the way as in OMK Android', function (done) {
+        OMK.fetchXmlAndCreateEntities('data/checksum_way.xml', function (entities) {
+            var way = OMK.buildChecksums(entities)._entityHash.w393886820;
+            var checksumStr = OMK.checksums._preWayChecksumStr(way);
+            expect(checksumStr).to.equal('buildingcommercialbuilding:conditiongoodbuilding:levels1building:materialconcretenameJava the Hut6f3b2e85e05dbdc496f9250931693f7a3e427807c3010e77a9f5d322bfd0081c607dfc7109b86ba93f7514c1b2ca88dfc53fdd7daecc0851bfeba081e52eb00f4e028a8010e32a9cfca788273f49a6756f3b2e85e05dbdc496f9250931693f7a3e427807');
+            done();
+        });
+    });
+
     it('checksum of the test way should equal the checksum generated for the same way in OMK Android', function (done) {
         OMK.fetchXmlAndCreateEntities('data/checksum_way.xml', function (entities) {
             var checksums = OMK.buildChecksums(entities);
