@@ -281,7 +281,7 @@ iD.Connection = function(useHttps) {
                 }, function(err, diffResultXml) {
                     if (err) return callback(err);
                     if (typeof OMK === 'object' && OMK !== null) {
-                        OMK.checksums.patchToOMKServer(diffResultXml);
+                        OMK.checksums.patchChecksumsToOMKServer(diffResultXml);
                     }
                     // POST was successful, safe to call the callback.
                     // Still attempt to close changeset, but ignore response because #2667

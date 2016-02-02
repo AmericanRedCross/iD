@@ -33,6 +33,27 @@ OMK.Checksums = function (entitiesFromServer) {
 };
 
 OMK.Checksums.prototype.patchChecksumsToOMKServer = function (diffResultXml) {
+    var checksums = [];
+    var entities = diffResultXml.children[0].children;
+    for (var i = 0, len = entities.length; i < len; i++) {
+        var entity = entities[i];
+        var typeChar = entity.nodeName[0];
+        var oldId = entity.attributes.old_id.value;
+        var id = typeChar + oldId;
+        var checksum = this._idToChecksumHash[id];
+        checksums.push(checksum);
+    }
+    var json = JSON.stringify({finalizedOsmChecksums: checksums});
+
+    var http = new XMLHttpRequest();
+    http.onreadystatechange = function() {
+        if (http.readyState === 4 && http.status === 200) {
+            console.log(http.responseText);
+        }
+    };
+    http.open('PATCH', OMK.omkServerOsmUrl(), true); // true for async
+    http.setRequestHeader('Content-type', 'application/json');
+    http.send(json);
 
 };
 
