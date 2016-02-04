@@ -3,6 +3,5 @@ node_modules
 npm-debug.log
 dist/*.js
 dist/*.css
-dist/img/*.svg
 transifex.auth
 .idea/
