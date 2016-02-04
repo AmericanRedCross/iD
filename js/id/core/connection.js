@@ -278,8 +278,11 @@ iD.Connection = function(useHttps) {
                     path: '/api/0.6/changeset/' + changeset_id + '/upload',
                     options: { header: { 'Content-Type': 'text/xml' } },
                     content: JXON.stringify(connection.osmChangeJXON(changeset_id, changes))
-                }, function(err) {
+                }, function(err, diffResultXml) {
                     if (err) return callback(err);
+                    if (typeof OMK === 'object' && OMK !== null) {
+                        OMK.checksums.patchChecksumsToOMKServer(diffResultXml);
+                    }
                     // POST was successful, safe to call the callback.
                     // Still attempt to close changeset, but ignore response because #2667
                     // Add delay to allow for postgres replication #1646 #2678

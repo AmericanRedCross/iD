@@ -62,9 +62,12 @@ dist/iD.js: \
 	js/lib/sexagesimal.js \
 	js/lib/togeojson.js \
 	js/lib/marked.js \
+	js/lib/rusha.min.js \
 	js/id/start.js \
 	js/omk/omk.js \
+	js/omk/ui/omk_form_combobox.js \
 	js/omk/staging.js \
+	js/omk/checksums.js \
 	js/id/id.js \
 	js/id/services/*.js \
 	js/id/util.js \
