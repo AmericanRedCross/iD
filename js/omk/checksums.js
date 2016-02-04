@@ -47,6 +47,7 @@ OMK.Checksums.prototype.patchChecksumsToOMKServer = function (diffResultXml) {
 
     d3.xhr(OMK.omkServerOsmUrl())
         .mimeType('application/json')
+        .header('Content-Type', 'application/json')
         .response(function (xhr) {
             return JSON.parse(xhr.responseText);
         })
