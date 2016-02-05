@@ -105,9 +105,11 @@ var omkFormCombobox = function(context) {
                             d3.select('#omkForm').value(currentStateForm.name);
                         } else if (selectedForm.length === 0) {
                             d3.select('#omkForm').value(serverForms[0].name);
+                            d3.select('#omkDownload a').attr('href', '/submissions/' + serverForms[0].formID + '.osm')
                             setState(serverForms[0].formID);
                         } else {
                             setState(selectedForm[0].formID);
+                            d3.select('#omkDownload a').attr('href','/submissions/' + selectedForm[0].formID + '.osm');
                         }
 
                         // Load the new form submission (?)
@@ -134,7 +136,7 @@ var omkFormCombobox = function(context) {
 
 OMK.insertFormCombobox = function(context){
 
-    d3.select('#omkFormSelectorWrapper').append('div')
+    d3.select('#omkFormControlsWrapper').append('div')
         .attr('class', 'omk-form-combobox')
         .call(omkFormCombobox(context));
 

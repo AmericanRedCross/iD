@@ -35,19 +35,29 @@
     top: 126px;
 }
 
-#omkFormSelectorWrapper {
+#omkFormControlsWrapper {
 float:right;
 }
 
-#omkFormSelectorWrapper .dropdown-label {
+#omkFormControlsWrapper .dropdown-label, #omkDownload {
     display: inline-block;
     font-size: 16px;
     margin: .8em .5em 0 0;
 }
 
-.omk-form-combobox {
+#omkDownload {
     float: right;
     margin-right: 20px;
+}
+
+#omkDownload:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.omk-form-combobox {
+    float: right;
+    margin-right: 10px;
     margin-top: 7px;
     width: 230px;
     font-size: 12px;
