@@ -47,12 +47,37 @@ describe('OMK.Checksums', function () {
         });
     });
 
-    it('checksum of the test way should equal the checksum generated for the same way in OMK Android', function (done) {
+    it('should equal the checksum generated for the same way in OMK Android', function (done) {
         OMK.fetchXmlAndCreateEntities('data/checksum_way.xml', function (entities) {
             var checksums = OMK.buildChecksums(entities);
             var waySha1 = checksums._idToChecksumHash.w393886820;
             expect(waySha1).to.eql("add90109a0ca34d12d28292ccd05c588d2220f0a");
             done();
         });
+    });
+
+    it('should have the same pre-hash checksum string in the Donut Happy node as in OMK Android', function (done) {
+        OMK.fetchXmlAndCreateEntities('data/donut_happy.xml', function (entities) {
+            var way = OMK.buildChecksums(entities)._entityHash['n-12'];
+            var checksumStr = OMK.checksums._preNodeChecksumStr(way);
+            expect(checksumStr).to.equal('addr:citySacramentoaddr:housenumber5049-Daddr:postcode95841addr:stateCAaddr:streetCollege Oak Dr.amenitycafénameDonut Happyshopbakery38.65838277039187-121.3510830389408');
+            done();
+        });
+    });
+
+    it('should equal the checksum generated for the same Donut Happy node as in OMK Android', function (done) {
+        OMK.fetchXmlAndCreateEntities('data/donut_happy.xml', function (entities) {
+            var checksums = OMK.buildChecksums(entities);
+            var nodeSha1 = checksums._idToChecksumHash['n-12'];
+            expect(nodeSha1).to.eql("27b1bf1412ab7f02f0991e37d783f92d83ed1d52");
+            done();
+        });
+    });
+
+    it('should have rusha.js hash a string with an accent eigu to be the same as OMK Android', function () {
+        var str = 'café';
+        var r = new Rusha();
+        var sha1 = r.digest(OMK.str2ab(str));
+        expect(sha1).to.eql("f424452a9673918c6f09b0cdd35b20be8e6ae7d7");
     });
 });

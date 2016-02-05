@@ -58,26 +58,30 @@ OMK.Checksums.prototype.patchChecksumsToOMKServer = function (diffResultXml) {
 };
 
 OMK.Checksums.prototype._generateNodeChecksum = function (entity) {
+    var str = this._preNodeChecksumStr(entity);
+    this._idToChecksumHash[entity.id] = this._rusha.digest(OMK.str2ab(str));
+};
+
+OMK.Checksums.prototype._preNodeChecksumStr = function (entity) {
     var str = this._tagsAsSortedKVString(entity.tags);
     str += entity.loc[1]; // lat
     str += entity.loc[0]; // lng
-    this._idToChecksumHash[entity.id] = this._rusha.digest(str);
+    return str;
 };
 
 OMK.Checksums.prototype._generateWayChecksum = function (entity) {
     var str = this._preWayChecksumStr(entity);
-    this._idToChecksumHash[entity.id] = this._rusha.digest(str);
+    this._idToChecksumHash[entity.id] = this._rusha.digest(OMK.str2ab(str));
 };
 
 OMK.Checksums.prototype._preWayChecksumStr = function (entity) {
     var str = this._tagsAsSortedKVString(entity.tags);
     for (var i = 0, len = entity.nodes.length; i < len; i++) {
         var id = entity.nodes[i];
-        var sha1 = this._idToChecksumHash[id];
-        str += sha1;
+        str += this._idToChecksumHash[id];
     }
     return str;
-}
+};
 
 //OMK.Checksums.prototype._generateRelationChecksum = function (entity) {
 //    var str = this._tagsAsSortedKVString(entity.tags);
@@ -89,7 +93,7 @@ OMK.Checksums.prototype._preWayChecksumStr = function (entity) {
 //        }
 //
 //    }
-//    entity.checksum = this._rusha.digest(str);
+//    entity.checksum = this._rusha.digest(OMK.str2ab(str));
 //};
 
 OMK.Checksums.prototype._tagsAsSortedKVString = function (tags) {

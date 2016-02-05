@@ -1,5 +1,18 @@
 window.OMK = {};
 
+/**
+ * OpenMapKit Utility Functions
+ *
+ * The following are utility functions the OpenMapKit plugin need.
+ *
+ */
+
+/**
+ * Determines the OMK Server endpoint for
+ * OSM data from the currently selected form.
+ *
+ * @returns {*}
+ */
 OMK.omkServerOsmUrl = function () {
     var q = iD.util.stringQs(location.hash.substring(1));
     var formID = q.form_id || null;
@@ -128,4 +141,23 @@ OMK.fetchXmlAndCreateEntities = function (url, cb) {
     function getVisible(attrs) {
         return (!attrs.visible || attrs.visible.value !== 'false');
     }
+};
+
+/**
+ * Turns a string into an Uint8Array. This is useful for sending
+ * unicode strings with non-ASCII characters to rusha.js
+ *
+ * @param s
+ * @returns {Uint8Array}
+ */
+OMK.str2ab = function (s) {
+    var escstr = encodeURIComponent(s);
+    var binstr = escstr.replace(/%([0-9A-F]{2})/g, function(match, p1) {
+        return String.fromCharCode('0x' + p1);
+    });
+    var ua = new Uint8Array(binstr.length);
+    Array.prototype.forEach.call(binstr, function (ch, i) {
+        ua[i] = ch.charCodeAt(0);
+    });
+    return ua;
 };
