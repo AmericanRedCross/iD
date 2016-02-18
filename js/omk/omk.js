@@ -8,6 +8,17 @@ window.OMK = {};
  */
 
 /**
+ * Determines the OMK Server endpoint.
+ *
+ * @returns {*}
+ */
+OMK.omkServerUrl = function () {
+    var q = iD.util.stringQs(location.hash.substring(1));
+    var omkServer = q.omk_server || null;
+    return (omkServer ? omkServer : window.location.origin);
+};
+
+/**
  * Determines the OMK Server endpoint for
  * OSM data from the currently selected form.
  *
@@ -16,9 +27,8 @@ window.OMK = {};
 OMK.omkServerOsmUrl = function () {
     var q = iD.util.stringQs(location.hash.substring(1));
     var formID = q.form_id || null;
-    var omkServer = q.omk_server || null;
     if(formID) {
-        return (omkServer ? omkServer : window.location.origin) + '/submissions/' + formID + '.osm';
+        return OMK.omkServerUrl() + '/submissions/' + formID + '.osm';
     }
     return null;
 };

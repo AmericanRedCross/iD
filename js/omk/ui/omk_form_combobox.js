@@ -32,7 +32,7 @@ var omkFormCombobox = function(context) {
 
     return function omkFormCombobox(selection) {
 
-        d3.xhr('http://localhost:3210/formList?json=true')
+        d3.xhr(OMK.omkServerUrl() + '/formList?json=true')
             .header("X-OpenRosa-Version", "1.0")
             .get(function(err, xhr){
 
