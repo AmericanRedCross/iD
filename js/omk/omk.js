@@ -28,7 +28,7 @@ OMK.omkServerOsmUrl = function () {
     var q = iD.util.stringQs(location.hash.substring(1));
     var formID = q.form_id || null;
     if(formID) {
-        return OMK.omkServerUrl() + '/submissions/' + formID + '.osm';
+        return OMK.omkServerUrl() + '/omk/odk/submissions/' + formID + '.osm';
     }
     return null;
 };
