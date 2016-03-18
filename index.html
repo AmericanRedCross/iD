@@ -270,7 +270,17 @@
                     .imagery(iD.data.imagery)
                     .taginfo(iD.taginfo())
                     .assetPath('dist/')
-                    .minEditableZoom(1);
+                    .minEditableZoom(1)
+                    .preauth({
+                        url: "http://posm.local/osm",
+                        oauth_consumer_key: '5A043yRSEugj4DJ5TljuapfnrflWDte8jTOcWLlT',
+                        oauth_secret: 'aB3jKq1TRsCOUrfOIZ6oQMEDmv2ptV76PA54NGLL'
+                    });
+
+                id.connection()
+                    .switch({
+                        url: "http://posm.local/osm"
+                    });
 
                 d3.select('#id-container')
                     .call(id.ui());

@@ -9,6 +9,8 @@ iD.countryCode  = function() {
     var cache = iD.countryCode.cache;
 
     countryCode.search = function(location, callback) {
+        return callback(null, '');
+        
         var countryCodes = cache.search([location[0], location[1], location[0], location[1]]);
 
         if (countryCodes.length > 0)
