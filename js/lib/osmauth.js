@@ -18,7 +18,8 @@ module.exports = function(o) {
     // authenticated users will also have a request token secret, but it's
     // not used in transactions with the server
     oauth.authenticated = function() {
-        return !!(token('oauth_token') && token('oauth_token_secret'));
+        //return !!(token('oauth_token') && token('oauth_token_secret'));
+        return true;
     };
 
     oauth.logout = function() {
